@@ -85,11 +85,11 @@
   - ~~B4: Arabic RTL — next-intl, en/ar locales, language toggle, `dir="rtl"`~~ ✅
   - B5: Vercel deploy
 
-- [ ] **Commit 10 — Final polish + README**
+- [x] **Commit 10 — Final polish + README**
   - Shared UI: ErrorState, LoadingSpinner, EmptyState
   - Layout: StoreProvider, nav header, responsive container
-  - Loading/error boundaries per route
-  - README: setup, feature table, state decisions, design notes
+  - Loading/error boundaries per route (loading.tsx + error.tsx for all routes)
+  - README: setup, feature table, state decisions, architecture, AI usage note
 
 ---
 
@@ -132,9 +132,9 @@ Thursday + Friday nights = base rate × 1.25.
 ---
 
 ## Verification Checklist
-- [ ] `npm install && npm run dev` works
+- [x] `npm install && npm run dev` works
 - [ ] `npm run lint` passes
-- [ ] `npm test` passes
-- [ ] `npm run build` succeeds
+- [x] `npm test` passes (13/13)
+- [x] `npm run build` succeeds
 - [ ] High chaos manual test (latency 3000, error 0.3, price change 0.5, hold TTL 60s)
 - [ ] Responsive at 360px width
