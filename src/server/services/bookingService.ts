@@ -1,6 +1,6 @@
 import 'server-only';
 import { v4 as uuid } from 'uuid';
-import type { Booking, Guest, ISODate, Money, Quote } from '@/domain/types';
+import type { Booking, Guest, ISODate, Money } from '@/domain/types';
 import { buildQuote } from '@/domain/pricing';
 import { db } from '../db/memoryDb';
 
