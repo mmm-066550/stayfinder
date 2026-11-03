@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import { baseApi } from '@/store/baseApi';
 import type { Booking, Guest } from '@/domain/types';
 
@@ -89,6 +90,7 @@ export const bookingsApi = baseApi.injectEndpoints({
           await queryFulfilled;
         } catch {
           patch.undo();
+          toast.error('Cancel failed — restored.');
         }
       },
       invalidatesTags: (_result, _err, bookingId) => [

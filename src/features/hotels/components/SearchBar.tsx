@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { format, addDays } from 'date-fns';
+import { useTranslations } from 'next-intl';
 import { CalendarIcon, Search, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -25,6 +26,7 @@ const cities: { value: City; label: string }[] = [
 
 export function SearchBar({ initial }: SearchBarProps) {
   const router = useRouter();
+  const t = useTranslations('search');
   const [city, setCity] = useState<City | ''>(initial?.city ?? '');
   const [checkIn, setCheckIn] = useState<Date | undefined>(
     initial?.checkIn ? new Date(initial.checkIn + 'T00:00:00') : undefined,
@@ -49,15 +51,15 @@ export function SearchBar({ initial }: SearchBarProps) {
   today.setHours(0, 0, 0, 0);
 
   return (
-    <div className="rounded-lg border bg-card p-4 shadow-sm">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        <div className="space-y-1.5">
-          <Label className="text-xs font-medium">City</Label>
+    <div className="rounded-2xl bg-card shadow-lg border border-border/50 overflow-hidden">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto]">
+        <div className="p-3 sm:p-4 lg:border-e border-border/40">
+          <Label className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{t('city')}</Label>
           <Select value={city} onValueChange={(v) => setCity(v as City)}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select city" />
+            <SelectTrigger className="w-full border-0 shadow-none px-0 h-8 text-sm font-medium focus:ring-0">
+              <SelectValue placeholder={t('selectCity')} />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent sideOffset={12} alignItemWithTrigger={false} className="rounded-lg shadow-xl border border-border/60">
               {cities.map((c) => (
                 <SelectItem key={c.value} value={c.value}>
                   {c.label}
@@ -67,18 +69,18 @@ export function SearchBar({ initial }: SearchBarProps) {
           </Select>
         </div>
 
-        <div className="space-y-1.5">
-          <Label className="text-xs font-medium">Check-in</Label>
+        <div className="p-3 sm:p-4 border-t sm:border-t-0 lg:border-e border-border/40">
+          <Label className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{t('checkIn')}</Label>
           <Popover>
             <PopoverTrigger
               render={
-                <Button variant="outline" className="w-full justify-start text-left font-normal" />
+                <Button variant="ghost" className="w-full justify-start text-start font-medium px-0 h-8 hover:bg-transparent" />
               }
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {checkIn ? format(checkIn, 'MMM d, yyyy') : 'Pick date'}
+              <CalendarIcon className="me-2 h-4 w-4 text-muted-foreground" />
+              {checkIn ? format(checkIn, 'MMM d, yyyy') : <span className="text-muted-foreground">{t('pickDate')}</span>}
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent className="w-auto p-0 rounded-lg shadow-xl border border-border/60" align="start" sideOffset={12}>
               <Calendar
                 mode="single"
                 selected={checkIn}
@@ -94,18 +96,18 @@ export function SearchBar({ initial }: SearchBarProps) {
           </Popover>
         </div>
 
-        <div className="space-y-1.5">
-          <Label className="text-xs font-medium">Check-out</Label>
+        <div className="p-3 sm:p-4 border-t lg:border-t-0 lg:border-e border-border/40">
+          <Label className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{t('checkOut')}</Label>
           <Popover>
             <PopoverTrigger
               render={
-                <Button variant="outline" className="w-full justify-start text-left font-normal" />
+                <Button variant="ghost" className="w-full justify-start text-start font-medium px-0 h-8 hover:bg-transparent" />
               }
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {checkOut ? format(checkOut, 'MMM d, yyyy') : 'Pick date'}
+              <CalendarIcon className="me-2 h-4 w-4 text-muted-foreground" />
+              {checkOut ? format(checkOut, 'MMM d, yyyy') : <span className="text-muted-foreground">{t('pickDate')}</span>}
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent className="w-auto p-0 rounded-lg shadow-xl border border-border/60" align="start" sideOffset={12}>
               <Calendar
                 mode="single"
                 selected={checkOut}
@@ -116,31 +118,32 @@ export function SearchBar({ initial }: SearchBarProps) {
           </Popover>
         </div>
 
-        <div className="space-y-1.5">
-          <Label className="text-xs font-medium">Adults</Label>
+        <div className="p-3 sm:p-4 border-t lg:border-t-0 lg:border-e border-border/40">
+          <Label className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{t('guests')}</Label>
           <Select value={String(adults)} onValueChange={(v) => setAdults(Number(v))}>
-            <SelectTrigger className="w-full">
-              <Users className="mr-2 h-4 w-4" />
+            <SelectTrigger className="w-full border-0 shadow-none px-0 h-8 text-sm font-medium focus:ring-0">
+              <Users className="me-2 h-4 w-4 text-muted-foreground" />
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent sideOffset={12} alignItemWithTrigger={false} className="rounded-lg shadow-xl border border-border/60">
               {[1, 2, 3, 4].map((n) => (
                 <SelectItem key={n} value={String(n)}>
-                  {n} {n === 1 ? 'Adult' : 'Adults'}
+                  {t('adultsCount', { count: n })}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
 
-        <div className="flex items-end">
+        <div className="p-3 sm:p-4 border-t lg:border-t-0 flex items-center">
           <Button
             onClick={handleSearch}
-            className="w-full"
+            className="w-full lg:w-auto lg:px-8 h-11 rounded-lg text-sm font-semibold"
             disabled={!city || !checkIn || !checkOut}
+            size="lg"
           >
-            <Search className="mr-2 h-4 w-4" />
-            Search
+            <Search className="me-2 h-4 w-4" />
+            {t('search')}
           </Button>
         </div>
       </div>

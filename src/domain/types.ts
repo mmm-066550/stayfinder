@@ -19,6 +19,7 @@ export interface Room {
   id: string;
   hotelId: string;
   name: string;
+  image: string;
   maxGuests: number;
   baseRate: Money;
   refundable: boolean;
@@ -55,6 +56,7 @@ export interface Booking {
   quote: Quote;
   holdExpiresAt: string | null;
   guest?: Guest;
+  refundable: boolean;
 }
 
 export interface HotelSearchResult extends Hotel {

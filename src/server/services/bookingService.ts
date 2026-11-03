@@ -55,6 +55,7 @@ export function createHold(
     checkOut,
     quote: currentQuote,
     holdExpiresAt,
+    refundable: room.refundable,
   };
 
   db.createBooking(booking);

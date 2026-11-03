@@ -1,8 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: false,
+  images: {
+    remotePatterns: [
+      { hostname: 'images.unsplash.com' },
+    ],
+  },
   turbopack: {
     root: __dirname,
     rules: {

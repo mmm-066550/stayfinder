@@ -2,6 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { MapPin } from 'lucide-react';
 import { SearchBar } from './SearchBar';
 import { SearchFilters } from './SearchFilters';
 import { HotelList } from './HotelList';
@@ -14,26 +15,38 @@ export function SearchPage() {
   const ready = isSearchReady(params);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold mb-1">{t('title')}</h1>
+    <div>
+      <div className="bg-primary pb-20 pt-8">
+        <div className="mx-auto max-w-6xl px-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-primary-foreground mb-2">
+            {t('title')}
+          </h1>
+          <p className="text-primary-foreground/70 text-sm sm:text-base">
+            {t('subtitle')}
+          </p>
+        </div>
       </div>
 
-      <SearchBar initial={params} />
+      <div className="mx-auto max-w-6xl px-4 -mt-14">
+        <SearchBar initial={params} />
+      </div>
 
-      {ready && (
-        <>
-          <SearchFilters params={params} />
-          <HotelList params={params} />
-        </>
-      )}
+      <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
+        {ready && (
+          <>
+            <SearchFilters params={params} />
+            <HotelList params={params} />
+          </>
+        )}
 
-      {!ready && (
-        <div className="text-center py-16 text-muted-foreground">
-          <p className="text-lg font-medium">Where are you going?</p>
-          <p className="text-sm mt-1">Select a city and dates to start searching.</p>
-        </div>
-      )}
+        {!ready && (
+          <div className="text-center py-20 text-muted-foreground">
+            <MapPin className="mx-auto h-12 w-12 text-muted-foreground/30 mb-4" />
+            <p className="text-lg font-medium">{t('whereGoing')}</p>
+            <p className="text-sm mt-1">{t('whereGoingDesc')}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

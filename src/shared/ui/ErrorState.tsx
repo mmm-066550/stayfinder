@@ -1,6 +1,7 @@
 'use client';
 
 import { AlertCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 
 interface ErrorStateProps {
@@ -8,14 +9,16 @@ interface ErrorStateProps {
   onRetry?: () => void;
 }
 
-export function ErrorState({ message = 'Something went wrong.', onRetry }: ErrorStateProps) {
+export function ErrorState({ message, onRetry }: ErrorStateProps) {
+  const t = useTranslations('common');
+
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
       <AlertCircle className="h-10 w-10 text-destructive" />
-      <p className="text-muted-foreground">{message}</p>
+      <p className="text-muted-foreground">{message ?? t('error')}</p>
       {onRetry && (
         <Button variant="outline" onClick={onRetry}>
-          Try again
+          {t('retry')}
         </Button>
       )}
     </div>

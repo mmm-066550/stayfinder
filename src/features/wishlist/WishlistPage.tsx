@@ -1,13 +1,14 @@
 'use client';
 
-import { Heart } from 'lucide-react';
+import { Heart, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { useAppSelector } from '@/store/hooks';
 import { selectWishlist } from './wishlistSlice';
 import { useGetWishlistHotelsQuery } from '@/features/hotels/hotelsApi';
-import { EmptyState } from '@/shared/ui/EmptyState';
 import { ErrorState } from '@/shared/ui/ErrorState';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 import { WishlistHotelCard } from './WishlistHotelCard';
 
 export function WishlistPage() {
@@ -17,27 +18,42 @@ export function WishlistPage() {
     skip: hotelIds.length === 0,
   });
 
-  if (hotelIds.length === 0) {
-    return (
-      <div className="mx-auto max-w-4xl px-4 py-6">
-        <h1 className="text-2xl font-bold mb-6">{t('title')}</h1>
-        <EmptyState
-          icon={<Heart className="h-10 w-10 text-muted-foreground/40" />}
-          title={t('empty')}
-          description={t('emptyDesc')}
-        />
-      </div>
-    );
-  }
+  const isEmpty = hotelIds.length === 0;
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-6">
-        <h1 className="text-2xl font-bold mb-6">{t('title')}</h1>
-        <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-28 w-full rounded-lg" />
-          ))}
+      <div>
+        <div className="bg-primary">
+          <div className="mx-auto max-w-5xl px-4 pt-8 pb-6">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-10 w-10 rounded-xl bg-white/10" />
+              <div className="space-y-2">
+                <Skeleton className="h-7 w-36 bg-white/10" />
+                <Skeleton className="h-4 w-28 bg-white/10" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mx-auto max-w-5xl px-4 py-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="rounded-lg border border-border/50 bg-card overflow-hidden">
+                <Skeleton className="h-44 w-full" />
+                <div className="p-4 space-y-3">
+                  <div className="space-y-2">
+                    <Skeleton className="h-5 w-3/4" />
+                    <Skeleton className="h-4 w-40" />
+                  </div>
+                  <div className="flex gap-2">
+                    <Skeleton className="h-5 w-14 rounded-full" />
+                    <Skeleton className="h-5 w-16 rounded-full" />
+                    <Skeleton className="h-5 w-12 rounded-full" />
+                  </div>
+                  <Skeleton className="h-9 w-full rounded-lg" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -45,25 +61,52 @@ export function WishlistPage() {
 
   if (isError) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-6">
-        <h1 className="text-2xl font-bold mb-6">{t('title')}</h1>
+      <div className="mx-auto max-w-5xl px-4 py-8">
         <ErrorState message={String(error)} onRetry={refetch} />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6">
-      <h1 className="text-2xl font-bold mb-6">
-        {t('title')}
-        <span className="text-base font-normal text-muted-foreground ms-2">
-          {t('hotels', { count: hotels?.length ?? 0 })}
-        </span>
-      </h1>
-      <div className="space-y-4">
-        {hotels?.map((hotel) => (
-          <WishlistHotelCard key={hotel.id} hotel={hotel} />
-        ))}
+    <div>
+      <div className="bg-primary">
+        <div className="mx-auto max-w-5xl px-4 pt-8 pb-6">
+          <div className="flex items-center gap-3 mb-1">
+            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-white/15">
+              <Heart className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-primary-foreground">{t('title')}</h1>
+              <p className="text-primary-foreground/60 text-sm">
+                {isEmpty ? t('subtitle') : t('hotels', { count: hotels?.length ?? 0 })}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-5xl px-4 py-6">
+        {isEmpty ? (
+          <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+            <div className="flex items-center justify-center h-16 w-16 rounded-2xl bg-muted">
+              <Heart className="h-8 w-8 text-muted-foreground/40" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg">{t('empty')}</h3>
+              <p className="text-sm text-muted-foreground mt-1">{t('emptyDesc')}</p>
+            </div>
+            <Button nativeButton={false} render={<Link href="/" />} className="mt-2">
+              <Search className="me-2 h-4 w-4" />
+              {t('emptyAction')}
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {hotels?.map((hotel) => (
+              <WishlistHotelCard key={hotel.id} hotel={hotel} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,21 +1,28 @@
 'use client';
 
-import { Languages } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { useLocale } from './LocaleProvider';
 
 export function LanguageToggle() {
   const { locale, setLocale } = useLocale();
+  const targetLocale = locale === 'en' ? 'ar' : 'en';
+  const flagCode = locale === 'en' ? 'sa' : 'gb';
+  const label = locale === 'en' ? 'العربية' : 'English';
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={() => setLocale(locale === 'en' ? 'ar' : 'en')}
-      className="gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+    <button
+      onClick={() => setLocale(targetLocale)}
+      className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm text-primary-foreground/80 hover:bg-white/10 hover:text-primary-foreground transition-colors"
+      aria-label={`Switch to ${label}`}
     >
-      <Languages className="h-4 w-4" />
-      {locale === 'en' ? 'العربية' : 'English'}
-    </Button>
+      <img
+        src={`https://flagcdn.com/20x15/${flagCode}.png`}
+        srcSet={`https://flagcdn.com/40x30/${flagCode}.png 2x`}
+        width="20"
+        height="15"
+        alt={label}
+        className="rounded-sm"
+      />
+      <span className="hidden sm:inline text-xs font-medium">{label}</span>
+    </button>
   );
 }
