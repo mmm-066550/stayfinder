@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Toaster } from 'sonner';
 import StoreProvider from '@/store/StoreProvider';
+import { LocaleProvider } from '@/i18n/LocaleProvider';
 import { Header } from '@/shared/ui/Header';
 import './globals.css';
 
@@ -28,9 +29,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <StoreProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Toaster richColors position="top-right" />
+          <LocaleProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Toaster richColors position="top-right" />
+          </LocaleProvider>
         </StoreProvider>
       </body>
     </html>

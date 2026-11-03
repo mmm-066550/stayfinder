@@ -1,0 +1,92 @@
+{
+  "header": {
+    "brand": "ستاي فايندر",
+    "wishlist": "المفضلة",
+    "myBookings": "حجوزاتي"
+  },
+  "search": {
+    "title": "ابحث عن إقامتك المثالية",
+    "city": "المدينة",
+    "checkIn": "تسجيل الدخول",
+    "checkOut": "تسجيل الخروج",
+    "adults": "البالغون",
+    "search": "بحث",
+    "noResults": "لا توجد فنادق",
+    "noResultsDesc": "حاول تعديل معايير البحث أو الفلاتر.",
+    "updating": "جارٍ التحديث...",
+    "totalFrom": "الإجمالي من",
+    "viewRooms": "عرض الغرف"
+  },
+  "filters": {
+    "sort": "ترتيب حسب",
+    "price": "السعر",
+    "rating": "التقييم",
+    "stars": "النجوم",
+    "allStars": "كل النجوم",
+    "maxPrice": "أقصى سعر",
+    "any": "الكل"
+  },
+  "hotel": {
+    "backToResults": "العودة للنتائج",
+    "availableRooms": "الغرف المتاحة",
+    "adults": "{count, plural, =1 {بالغ واحد} other {# بالغين}}",
+    "perNight": "لليلة",
+    "weekend": "عطلة نهاية الأسبوع",
+    "unitsLeft": "{count, plural, =1 {وحدة متبقية} other {# وحدات متبقية}}",
+    "reserve": "احجز",
+    "nightBreakdown": "تفاصيل الليالي",
+    "subtotal": "المجموع الفرعي",
+    "vat": "ضريبة القيمة المضافة (15%)",
+    "total": "الإجمالي"
+  },
+  "checkout": {
+    "title": "أكمل حجزك",
+    "backToHotel": "العودة للفندق",
+    "holdTimer": "مؤقت الحجز",
+    "guestDetails": "بيانات النزيل",
+    "fullName": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "confirm": "تأكيد الحجز",
+    "confirming": "جارٍ التأكيد...",
+    "holdExpired": "انتهى الحجز المؤقت",
+    "holdExpiredDesc": "انتهت صلاحية حجزك المؤقت. يرجى العودة والمحاولة مرة أخرى.",
+    "backToSearch": "العودة للبحث",
+    "alreadyConfirmed": "تم تأكيد الحجز مسبقاً",
+    "alreadyConfirmedDesc": "تم تأكيد هذا الحجز بالفعل.",
+    "viewBookings": "عرض حجوزاتي",
+    "confirmed": "تم تأكيد الحجز!",
+    "expired": "انتهت صلاحية حجزك المؤقت."
+  },
+  "bookings": {
+    "title": "حجوزاتي",
+    "empty": "لا توجد حجوزات بعد",
+    "emptyDesc": "سيظهر سجل حجوزاتك هنا.",
+    "cancel": "إلغاء",
+    "cancelling": "جارٍ الإلغاء...",
+    "cancelSuccess": "تم إلغاء الحجز.",
+    "cancelFail": "فشل الإلغاء — تمت الاستعادة.",
+    "bookingSuccess": "تم تأكيد الحجز بنجاح!",
+    "status": {
+      "held": "محجوز مؤقتاً",
+      "confirmed": "مؤكد",
+      "cancelled": "ملغى",
+      "expired": "منتهي"
+    }
+  },
+  "wishlist": {
+    "title": "المفضلة",
+    "empty": "قائمة المفضلة فارغة",
+    "emptyDesc": "اضغط على أيقونة القلب في أي فندق لحفظه هنا.",
+    "hotels": "{count, plural, =1 {فندق واحد} other {# فنادق}}"
+  },
+  "common": {
+    "retry": "حاول مرة أخرى",
+    "to": "إلى",
+    "priceChanged": "تغيّر السعر",
+    "priceChangedDesc": "تم تحديث سعر هذه الغرفة منذ آخر عرض لها.",
+    "newTotal": "الإجمالي الجديد",
+    "goBack": "رجوع",
+    "acceptRefresh": "قبول وتحديث"
+  }
+}

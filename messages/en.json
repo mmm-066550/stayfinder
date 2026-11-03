@@ -1,0 +1,92 @@
+{
+  "header": {
+    "brand": "StayFinder",
+    "wishlist": "Wishlist",
+    "myBookings": "My Bookings"
+  },
+  "search": {
+    "title": "Find your perfect stay",
+    "city": "City",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "adults": "Adults",
+    "search": "Search",
+    "noResults": "No hotels found",
+    "noResultsDesc": "Try adjusting your search criteria or filters.",
+    "updating": "Updating results...",
+    "totalFrom": "Total from",
+    "viewRooms": "View Rooms"
+  },
+  "filters": {
+    "sort": "Sort by",
+    "price": "Price",
+    "rating": "Rating",
+    "stars": "Stars",
+    "allStars": "All stars",
+    "maxPrice": "Max price",
+    "any": "Any"
+  },
+  "hotel": {
+    "backToResults": "Back to results",
+    "availableRooms": "Available Rooms",
+    "adults": "{count, plural, =1 {# adult} other {# adults}}",
+    "perNight": "per night",
+    "weekend": "weekend",
+    "unitsLeft": "{count, plural, =1 {# unit left} other {# units left}}",
+    "reserve": "Reserve",
+    "nightBreakdown": "Night breakdown",
+    "subtotal": "Subtotal",
+    "vat": "VAT (15%)",
+    "total": "Total"
+  },
+  "checkout": {
+    "title": "Complete Your Booking",
+    "backToHotel": "Back to hotel",
+    "holdTimer": "Hold Timer",
+    "guestDetails": "Guest Details",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "confirm": "Confirm Booking",
+    "confirming": "Confirming...",
+    "holdExpired": "Hold Expired",
+    "holdExpiredDesc": "Your reservation hold has expired. Please go back and try again.",
+    "backToSearch": "Back to Search",
+    "alreadyConfirmed": "Booking Already Confirmed",
+    "alreadyConfirmedDesc": "This booking has already been confirmed.",
+    "viewBookings": "View My Bookings",
+    "confirmed": "Booking confirmed!",
+    "expired": "Your hold has expired."
+  },
+  "bookings": {
+    "title": "My Bookings",
+    "empty": "No bookings yet",
+    "emptyDesc": "Your booking history will appear here.",
+    "cancel": "Cancel",
+    "cancelling": "Cancelling...",
+    "cancelSuccess": "Booking cancelled.",
+    "cancelFail": "Cancel failed — restored.",
+    "bookingSuccess": "Booking confirmed successfully!",
+    "status": {
+      "held": "Held",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "expired": "Expired"
+    }
+  },
+  "wishlist": {
+    "title": "My Wishlist",
+    "empty": "Your wishlist is empty",
+    "emptyDesc": "Tap the heart icon on any hotel to save it here.",
+    "hotels": "{count, plural, =1 {# hotel} other {# hotels}}"
+  },
+  "common": {
+    "retry": "Try again",
+    "to": "to",
+    "priceChanged": "Price has changed",
+    "priceChangedDesc": "The price for this room has been updated since you last viewed it.",
+    "newTotal": "New total",
+    "goBack": "Go back",
+    "acceptRefresh": "Accept & refresh"
+  }
+}

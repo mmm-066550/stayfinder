@@ -79,10 +79,10 @@
 ### Phase 5: Bonuses & Polish
 
 - [ ] **Commit 9 — All bonuses (B1-B5)**
-  - B1: Wishlist — Redux slice persisted to localStorage, heart toggle
+  - ~~B1: Wishlist — Redux slice persisted to localStorage, heart toggle~~ ✅
   - B2: SSR Results — server-side search, hydrate on client
-  - B3: Countdown test — HoldTimer component test with fake timers
-  - B4: Arabic RTL — next-intl, en/ar locales, language toggle, `dir="rtl"`
+  - ~~B3: Countdown test — HoldTimer component test with fake timers~~ ✅
+  - ~~B4: Arabic RTL — next-intl, en/ar locales, language toggle, `dir="rtl"`~~ ✅
   - B5: Vercel deploy
 
 - [ ] **Commit 10 — Final polish + README**

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Star, MapPin, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useGetHotelQuery } from '../hotelsApi';
@@ -13,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { getErrorMessage } from '@/store/baseApi';
 import { formatHalalas } from '@/domain/money';
+import { WishlistButton } from '@/features/wishlist/WishlistButton';
 import type { Quote } from '@/domain/types';
 
 interface HotelDetailPageProps {
@@ -30,6 +32,8 @@ export function HotelDetailPage({ hotelId }: HotelDetailPageProps) {
     { skip: !checkIn || !checkOut },
   );
 
+  const t = useTranslations('hotel');
+  const tCommon = useTranslations('common');
   const [priceChange, setPriceChange] = useState<{ roomId: string; newQuote: Quote } | null>(null);
 
   const handlePriceChanged = (roomId: string, newQuote: Quote) => {
@@ -81,15 +85,18 @@ export function HotelDetailPage({ hotelId }: HotelDetailPageProps) {
         render={<Link href={`/?city=${hotel.city}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}`} />}
       >
         <ArrowLeft className="mr-1 h-4 w-4" />
-        Back to results
+        {t('backToResults')}
       </Button>
 
       <div>
         <div className="flex items-start justify-between gap-3">
           <h1 className="text-2xl font-bold">{hotel.name}</h1>
-          <Badge variant="secondary" className="text-base px-2">
-            {hotel.rating.toFixed(1)}
-          </Badge>
+          <div className="flex items-center gap-1 shrink-0">
+            <WishlistButton hotelId={hotelId} size="lg" />
+            <Badge variant="secondary" className="text-base px-2">
+              {hotel.rating.toFixed(1)}
+            </Badge>
+          </div>
         </div>
         <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
           <span className="flex items-center gap-1">
@@ -113,9 +120,9 @@ export function HotelDetailPage({ hotelId }: HotelDetailPageProps) {
 
       <div>
         <h2 className="text-lg font-semibold mb-3">
-          Available Rooms
-          <span className="text-sm font-normal text-muted-foreground ml-2">
-            {checkIn} to {checkOut} · {adults} {adults === 1 ? 'adult' : 'adults'}
+          {t('availableRooms')}
+          <span className="text-sm font-normal text-muted-foreground ms-2">
+            {checkIn} — {checkOut} · {t('adults', { count: adults })}
           </span>
         </h2>
         <div className="space-y-3">
@@ -137,22 +144,22 @@ export function HotelDetailPage({ hotelId }: HotelDetailPageProps) {
       <Dialog open={!!priceChange} onOpenChange={() => setPriceChange(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Price has changed</DialogTitle>
+            <DialogTitle>{tCommon('priceChanged')}</DialogTitle>
             <DialogDescription>
-              The price for this room has been updated since you last viewed it.
+              {tCommon('priceChangedDesc')}
             </DialogDescription>
           </DialogHeader>
           {priceChange && (
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span>New total</span>
+                <span>{tCommon('newTotal')}</span>
                 <span className="font-bold">{formatHalalas(priceChange.newQuote.total)}</span>
               </div>
             </div>
           )}
           <DialogFooter className="gap-2">
             <Button variant="outline" onClick={() => setPriceChange(null)}>
-              Go back
+              {tCommon('goBack')}
             </Button>
             <Button
               onClick={() => {
@@ -160,7 +167,7 @@ export function HotelDetailPage({ hotelId }: HotelDetailPageProps) {
                 refetch();
               }}
             >
-              Accept & refresh
+              {tCommon('acceptRefresh')}
             </Button>
           </DialogFooter>
         </DialogContent>

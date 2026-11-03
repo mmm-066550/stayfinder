@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useSearchHotelsQuery } from '../hotelsApi';
 import { HotelCard } from './HotelCard';
 import { ErrorState } from '@/shared/ui/ErrorState';
@@ -35,6 +36,7 @@ function HotelSkeleton() {
 }
 
 export function HotelList({ params }: HotelListProps) {
+  const t = useTranslations('search');
   const { data, isLoading, isFetching, isError, error, refetch } = useSearchHotelsQuery(params);
 
   if (isLoading) {
@@ -54,8 +56,8 @@ export function HotelList({ params }: HotelListProps) {
   if (!data || data.length === 0) {
     return (
       <EmptyState
-        title="No hotels found"
-        description="Try adjusting your search criteria or filters."
+        title={t('noResults')}
+        description={t('noResultsDesc')}
       />
     );
   }
@@ -63,7 +65,7 @@ export function HotelList({ params }: HotelListProps) {
   return (
     <div className="space-y-4">
       {isFetching && !isLoading && (
-        <div className="text-sm text-muted-foreground text-center py-1">Updating results...</div>
+        <div className="text-sm text-muted-foreground text-center py-1">{t('updating')}</div>
       )}
       {data.map((hotel) => (
         <HotelCard

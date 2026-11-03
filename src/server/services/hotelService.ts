@@ -1,5 +1,5 @@
 import 'server-only';
-import type { City, Stars, ISODate, HotelSearchResult, HotelDetail, Money } from '@/domain/types';
+import type { City, Hotel, Stars, ISODate, HotelSearchResult, HotelDetail, Money } from '@/domain/types';
 import { buildQuote } from '@/domain/pricing';
 import { db } from '../db/memoryDb';
 
@@ -49,6 +49,15 @@ export function searchHotels(filters: SearchFilters): HotelSearchResult[] {
     results.sort((a, b) => b.rating - a.rating);
   }
 
+  return results;
+}
+
+export function getHotelsByIds(ids: string[]): Hotel[] {
+  const results: Hotel[] = [];
+  for (const id of ids) {
+    const hotel = db.getHotel(id);
+    if (hotel) results.push(hotel);
+  }
   return results;
 }
 

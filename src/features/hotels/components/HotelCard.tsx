@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Star, MapPin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatHalalas } from '@/domain/money';
+import { WishlistButton } from '@/features/wishlist/WishlistButton';
 import type { HotelSearchResult } from '@/domain/types';
 
 interface HotelCardProps {
@@ -16,6 +18,7 @@ interface HotelCardProps {
 }
 
 export function HotelCard({ hotel, checkIn, checkOut, adults }: HotelCardProps) {
+  const t = useTranslations('search');
   const href = `/hotels/${hotel.id}?checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}`;
 
   return (
@@ -29,9 +32,12 @@ export function HotelCard({ hotel, checkIn, checkOut, adults }: HotelCardProps) 
             <div>
               <div className="flex items-start justify-between gap-2">
                 <h3 className="font-semibold text-lg leading-tight">{hotel.name}</h3>
-                <Badge variant="secondary" className="shrink-0">
-                  {hotel.rating.toFixed(1)}
-                </Badge>
+                <div className="flex items-center gap-1 shrink-0">
+                  <WishlistButton hotelId={hotel.id} />
+                  <Badge variant="secondary">
+                    {hotel.rating.toFixed(1)}
+                  </Badge>
+                </div>
               </div>
               <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
                 <span className="capitalize">{hotel.city}</span>
@@ -56,10 +62,10 @@ export function HotelCard({ hotel, checkIn, checkOut, adults }: HotelCardProps) 
             </div>
             <div className="mt-3 flex items-end justify-between">
               <div>
-                <p className="text-xs text-muted-foreground">Total from</p>
+                <p className="text-xs text-muted-foreground">{t('totalFrom')}</p>
                 <p className="text-lg font-bold">{formatHalalas(hotel.fromTotal)}</p>
               </div>
-              <Button nativeButton={false} render={<Link href={href} />}>View Rooms</Button>
+              <Button nativeButton={false} render={<Link href={href} />}>{t('viewRooms')}</Button>
             </div>
           </div>
         </div>

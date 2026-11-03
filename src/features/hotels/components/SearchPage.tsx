@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { SearchBar } from './SearchBar';
 import { SearchFilters } from './SearchFilters';
 import { HotelList } from './HotelList';
@@ -8,14 +9,14 @@ import { urlToSearchParams, isSearchReady } from '../searchParams';
 
 export function SearchPage() {
   const searchParams = useSearchParams();
+  const t = useTranslations('search');
   const params = urlToSearchParams(searchParams);
   const ready = isSearchReady(params);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold mb-1">Find Your Perfect Stay</h1>
-        <p className="text-muted-foreground text-sm">Search hotels across Riyadh, Jeddah, and Dubai</p>
+        <h1 className="text-2xl font-bold mb-1">{t('title')}</h1>
       </div>
 
       <SearchBar initial={params} />

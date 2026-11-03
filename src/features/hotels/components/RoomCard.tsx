@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { ChevronDown, ChevronUp, Users, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,6 +28,7 @@ interface RoomCardProps {
 }
 
 function NightBreakdown({ quote }: { quote: Quote }) {
+  const t = useTranslations('hotel');
   return (
     <div className="mt-2 space-y-1 text-sm">
       {quote.nights.map((n) => (
@@ -34,8 +36,8 @@ function NightBreakdown({ quote }: { quote: Quote }) {
           <span>
             {n.date}
             {n.isWeekend && (
-              <Badge variant="secondary" className="ml-1.5 text-[10px] px-1 py-0">
-                Weekend
+              <Badge variant="secondary" className="ms-1.5 text-[10px] px-1 py-0">
+                {t('weekend')}
               </Badge>
             )}
           </span>
@@ -43,15 +45,15 @@ function NightBreakdown({ quote }: { quote: Quote }) {
         </div>
       ))}
       <div className="border-t pt-1 flex justify-between">
-        <span>Subtotal</span>
+        <span>{t('subtotal')}</span>
         <span>{formatHalalas(quote.subtotal)}</span>
       </div>
       <div className="flex justify-between text-muted-foreground">
-        <span>VAT 15%</span>
+        <span>{t('vat')}</span>
         <span>{formatHalalas(quote.vat)}</span>
       </div>
       <div className="flex justify-between font-bold">
-        <span>Total</span>
+        <span>{t('total')}</span>
         <span>{formatHalalas(quote.total)}</span>
       </div>
     </div>
@@ -67,6 +69,7 @@ export function RoomCard({
   onPriceChanged,
   onRoomUnavailable,
 }: RoomCardProps) {
+  const t = useTranslations('hotel');
   const [expanded, setExpanded] = useState(false);
   const [createHold, { isLoading }] = useCreateHoldMutation();
   const dispatch = useAppDispatch();
@@ -135,9 +138,7 @@ export function RoomCard({
                 <Users className="h-3.5 w-3.5" />
                 Up to {room.maxGuests}
               </span>
-              <span>
-                {room.unitsLeft} {room.unitsLeft === 1 ? 'unit' : 'units'} left
-              </span>
+              <span>{t('unitsLeft', { count: room.unitsLeft })}</span>
             </div>
             {tooSmall && (
               <p className="mt-1 text-sm text-destructive flex items-center gap-1">
@@ -161,10 +162,10 @@ export function RoomCard({
             className="text-xs"
           >
             {expanded ? <ChevronUp className="mr-1 h-3 w-3" /> : <ChevronDown className="mr-1 h-3 w-3" />}
-            Night-by-night breakdown
+            {t('nightBreakdown')}
           </Button>
           <Button onClick={handleReserve} disabled={disabled} size="sm">
-            {isLoading ? 'Reserving...' : soldOut ? 'Sold Out' : 'Reserve'}
+            {isLoading ? '...' : soldOut ? 'Sold Out' : t('reserve')}
           </Button>
         </div>
 

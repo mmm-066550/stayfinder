@@ -1,5 +1,5 @@
 import { baseApi } from '@/store/baseApi';
-import type { HotelSearchResult, HotelDetail } from '@/domain/types';
+import type { Hotel, HotelSearchResult, HotelDetail } from '@/domain/types';
 import type { SearchParams } from '@/domain/schemas';
 
 export const hotelsApi = baseApi.injectEndpoints({
@@ -27,7 +27,12 @@ export const hotelsApi = baseApi.injectEndpoints({
         `/hotels/${hotelId}?checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}`,
       providesTags: (_result, _err, arg) => [{ type: 'Hotel', id: arg.hotelId }],
     }),
+
+    getWishlistHotels: build.query<Hotel[], string[]>({
+      query: (ids) => `/hotels/wishlist?ids=${ids.join(',')}`,
+      providesTags: ['Hotels'],
+    }),
   }),
 });
 
-export const { useSearchHotelsQuery, useGetHotelQuery } = hotelsApi;
+export const { useSearchHotelsQuery, useGetHotelQuery, useGetWishlistHotelsQuery } = hotelsApi;

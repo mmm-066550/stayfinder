@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { CalendarDays, User, Ban } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -23,13 +24,15 @@ const statusColors: Record<string, string> = {
 };
 
 export function BookingCard({ booking, refundableMap }: BookingCardProps) {
+  const t = useTranslations('bookings');
+  const tHotel = useTranslations('hotel');
   const [cancelBooking, { isLoading }] = useCancelBookingMutation();
   const isRefundable = refundableMap.get(booking.roomId) ?? true;
 
   const handleCancel = async () => {
     try {
       await cancelBooking(booking.id).unwrap();
-      toast.success('Booking cancelled.');
+      toast.success(t('cancelSuccess'));
     } catch (err) {
       if (isAppApiError(err) && err.data.error.code === 'NOT_REFUNDABLE') {
         toast.error('This room is non-refundable.');
@@ -45,9 +48,9 @@ export function BookingCard({ booking, refundableMap }: BookingCardProps) {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
           <div className="flex-1 space-y-1">
             <div className="flex items-center gap-2">
-              <span className="font-semibold">Booking #{booking.id.slice(0, 8)}</span>
+              <span className="font-semibold">#{booking.id.slice(0, 8)}</span>
               <Badge className={`text-xs ${statusColors[booking.status]}`}>
-                {booking.status}
+                {t(`status.${booking.status}`)}
               </Badge>
             </div>
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
@@ -57,7 +60,7 @@ export function BookingCard({ booking, refundableMap }: BookingCardProps) {
               </span>
               <span className="flex items-center gap-1">
                 <User className="h-3.5 w-3.5" />
-                {booking.adults} {booking.adults === 1 ? 'adult' : 'adults'}
+                {tHotel('adults', { count: booking.adults })}
               </span>
             </div>
             {booking.guest && (
@@ -77,7 +80,7 @@ export function BookingCard({ booking, refundableMap }: BookingCardProps) {
                   className="text-destructive border-destructive/30 hover:bg-destructive/10"
                 >
                   <Ban className="mr-1 h-3.5 w-3.5" />
-                  {isLoading ? 'Cancelling...' : 'Cancel'}
+                  {isLoading ? t('cancelling') : t('cancel')}
                 </Button>
               ) : (
                 <p className="text-xs text-muted-foreground">Non-refundable</p>

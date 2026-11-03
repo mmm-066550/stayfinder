@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { Clock, AlertTriangle, ArrowLeft, Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -33,6 +34,8 @@ function useStableId(): string {
 
 export function CheckoutPage({ bookingId }: CheckoutPageProps) {
   const router = useRouter();
+  const t = useTranslations('checkout');
+  const tHotel = useTranslations('hotel');
   const activeHold = useAppSelector(selectActiveHold);
   const fallbackKey = useStableId();
   const { data, isLoading, isError, error, refetch } = useGetBookingQuery(bookingId, {
@@ -68,18 +71,18 @@ export function CheckoutPage({ bookingId }: CheckoutPageProps) {
         idempotencyKey,
         guest,
       }).unwrap();
-      toast.success('Booking confirmed!');
+      toast.success(t('confirmed'));
       router.push('/bookings?confirmed=true');
     } catch (err) {
       if (isAppApiError(err)) {
         if (err.data.error.code === 'HOLD_EXPIRED') {
-          toast.error('Your hold has expired.');
+          toast.error(t('expired'));
           return;
         }
       }
       toast.error(getErrorMessage(err));
     }
-  }, [bookingId, idempotencyKey, confirmBooking, router]);
+  }, [bookingId, idempotencyKey, confirmBooking, router, t]);
 
   if (isLoading) {
     return (
@@ -104,9 +107,9 @@ export function CheckoutPage({ bookingId }: CheckoutPageProps) {
   if (booking.status === 'confirmed') {
     return (
       <div className="mx-auto max-w-2xl px-4 py-6 text-center space-y-4">
-        <h1 className="text-2xl font-bold">Booking Already Confirmed</h1>
-        <p className="text-muted-foreground">This booking has already been confirmed.</p>
-        <Button nativeButton={false} render={<Link href="/bookings" />}>View My Bookings</Button>
+        <h1 className="text-2xl font-bold">{t('alreadyConfirmed')}</h1>
+        <p className="text-muted-foreground">{t('alreadyConfirmedDesc')}</p>
+        <Button nativeButton={false} render={<Link href="/bookings" />}>{t('viewBookings')}</Button>
       </div>
     );
   }
@@ -115,11 +118,11 @@ export function CheckoutPage({ bookingId }: CheckoutPageProps) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-6 text-center space-y-4">
         <AlertTriangle className="mx-auto h-12 w-12 text-destructive" />
-        <h1 className="text-2xl font-bold">Hold Expired</h1>
-        <p className="text-muted-foreground">Your reservation hold has expired. Please go back and try again.</p>
+        <h1 className="text-2xl font-bold">{t('holdExpired')}</h1>
+        <p className="text-muted-foreground">{t('holdExpiredDesc')}</p>
         <Button variant="outline" nativeButton={false} render={<Link href="/" />}>
           <ArrowLeft className="mr-1 h-4 w-4" />
-          Back to Search
+          {t('backToSearch')}
         </Button>
       </div>
     );
@@ -134,15 +137,15 @@ export function CheckoutPage({ bookingId }: CheckoutPageProps) {
         render={<Link href={`/hotels/${booking.hotelId}?checkIn=${booking.checkIn}&checkOut=${booking.checkOut}&adults=${booking.adults}`} />}
       >
         <ArrowLeft className="mr-1 h-4 w-4" />
-        Back to hotel
+        {t('backToHotel')}
       </Button>
 
-      <h1 className="text-2xl font-bold">Complete Your Booking</h1>
+      <h1 className="text-2xl font-bold">{t('title')}</h1>
 
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base">Hold Timer</CardTitle>
+            <CardTitle className="text-base">{t('holdTimer')}</CardTitle>
             <Badge
               variant={isWarning ? 'destructive' : 'secondary'}
               className="flex items-center gap-1 text-sm"
@@ -154,11 +157,11 @@ export function CheckoutPage({ bookingId }: CheckoutPageProps) {
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
           <div className="flex justify-between">
-            <span>{booking.checkIn} to {booking.checkOut}</span>
-            <span>{booking.adults} {booking.adults === 1 ? 'adult' : 'adults'}</span>
+            <span>{booking.checkIn} — {booking.checkOut}</span>
+            <span>{tHotel('adults', { count: booking.adults })}</span>
           </div>
           <div className="mt-2 flex justify-between font-medium text-foreground">
-            <span>Total</span>
+            <span>{tHotel('total')}</span>
             <span>{formatHalalas(booking.quote.total)}</span>
           </div>
         </CardContent>
@@ -166,26 +169,26 @@ export function CheckoutPage({ bookingId }: CheckoutPageProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Guest Details</CardTitle>
+          <CardTitle className="text-base">{t('guestDetails')}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="fullName">Full Name</Label>
+              <Label htmlFor="fullName">{t('fullName')}</Label>
               <Input id="fullName" {...register('fullName')} placeholder="John Doe" />
               {formErrors.fullName && (
                 <p className="text-xs text-destructive">{formErrors.fullName.message}</p>
               )}
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('email')}</Label>
               <Input id="email" type="email" {...register('email')} placeholder="john@example.com" />
               {formErrors.email && (
                 <p className="text-xs text-destructive">{formErrors.email.message}</p>
               )}
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="phone">Phone</Label>
+              <Label htmlFor="phone">{t('phone')}</Label>
               <Input id="phone" {...register('phone')} placeholder="+966 50 000 0000" />
               {formErrors.phone && (
                 <p className="text-xs text-destructive">{formErrors.phone.message}</p>
@@ -195,10 +198,10 @@ export function CheckoutPage({ bookingId }: CheckoutPageProps) {
               {isConfirming ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Confirming...
+                  {t('confirming')}
                 </>
               ) : (
-                'Confirm Booking'
+                t('confirm')
               )}
             </Button>
           </form>

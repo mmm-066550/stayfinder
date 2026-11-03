@@ -2,6 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { CalendarCheck } from 'lucide-react';
 import { useListBookingsQuery } from '../bookingsApi';
@@ -13,13 +14,14 @@ import { getErrorMessage } from '@/store/baseApi';
 
 export function BookingsPage() {
   const searchParams = useSearchParams();
+  const t = useTranslations('bookings');
   const { data, isLoading, isError, error, refetch } = useListBookingsQuery();
 
   useEffect(() => {
     if (searchParams.get('confirmed') === 'true') {
-      toast.success('Your booking has been confirmed!');
+      toast.success(t('bookingSuccess'));
     }
-  }, [searchParams]);
+  }, [searchParams, t]);
 
   if (isLoading) {
     return (
@@ -51,13 +53,13 @@ export function BookingsPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-6 space-y-6">
-      <h1 className="text-2xl font-bold">My Bookings</h1>
+      <h1 className="text-2xl font-bold">{t('title')}</h1>
 
       {sorted.length === 0 ? (
         <EmptyState
           icon={<CalendarCheck className="h-10 w-10 text-muted-foreground/50" />}
-          title="No bookings yet"
-          description="Once you make a reservation, it will appear here."
+          title={t('empty')}
+          description={t('emptyDesc')}
         />
       ) : (
         <div className="space-y-3">
