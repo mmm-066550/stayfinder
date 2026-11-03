@@ -41,17 +41,17 @@
 
 ### Phase 2: Server Layer (Fake Backend) — PRIORITY
 
-- [ ] **Commit 3 — Seed data & in-memory DB**
-  - `server/db/seed.ts` — 12 hotels × 3 cities (Riyadh 4, Jeddah 4, Dubai 4), 2-3 rooms each
-  - `server/db/memoryDb.ts` — Hotels/rooms/bookings maps, unit availability tracking
+- [x] **Commit 3 — Seed data & in-memory DB**
+  - `server/db/seed.ts` — 12 hotels × 3 cities (Riyadh 4, Jeddah 4, Dubai 4), 2-3 rooms each, 1-3 units
+  - `server/db/memoryDb.ts` — Hotels/rooms/bookings maps, unit availability tracking, hold expiry, idempotency keys
 
-- [ ] **Commit 4 — Services layer**
-  - `server/services/hotelService.ts` — searchHotels (filter/sort), getHotelWithRooms (quote + availability)
-  - `server/services/bookingService.ts` — createHold, confirmBooking, cancelBooking, auto-expire holds
+- [x] **Commit 4 — Services layer**
+  - `server/services/hotelService.ts` — searchHotels (filter/sort/availability), getHotelWithRooms (quote + unitsLeft)
+  - `server/services/bookingService.ts` — createHold (price check), confirmBooking (idempotent), cancelBooking (refundable check), auto-expire
 
-- [ ] **Commit 5 — Chaos layer + Route Handlers**
-  - `server/withChaos.ts` — Random delay, random 500, price change on hold, confirm-on-500
-  - 6 route handlers: hotels search, hotel detail, bookings list, booking detail, confirm, cancel
+- [x] **Commit 5 — Chaos layer + Route Handlers**
+  - `server/withChaos.ts` — Random delay, random 500 (confirm runs first then 500), price change on hold
+  - 6 route handlers: GET hotels, GET hotel/:id, GET/POST bookings, GET booking/:id, POST confirm, POST cancel
 
 ### Phase 3: Redux Store & RTK Query
 
