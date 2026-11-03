@@ -59,7 +59,7 @@ export function HotelCard({ hotel, checkIn, checkOut, adults }: HotelCardProps) 
                 <p className="text-xs text-muted-foreground">Total from</p>
                 <p className="text-lg font-bold">{formatHalalas(hotel.fromTotal)}</p>
               </div>
-              <Button render={<Link href={href} />}>View Rooms</Button>
+              <Button nativeButton={false} render={<Link href={href} />}>View Rooms</Button>
             </div>
           </div>
         </div>

@@ -77,6 +77,7 @@ export function HotelDetailPage({ hotelId }: HotelDetailPageProps) {
       <Button
         variant="ghost"
         size="sm"
+        nativeButton={false}
         render={<Link href={`/?city=${hotel.city}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}`} />}
       >
         <ArrowLeft className="mr-1 h-4 w-4" />

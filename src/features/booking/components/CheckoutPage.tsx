@@ -48,7 +48,7 @@ export function CheckoutPage({ bookingId }: CheckoutPageProps) {
   const booking = data?.booking;
   const serverTime = data?.serverTime ?? new Date().toISOString();
 
-  const { formatted, isExpired, isWarning } = useHoldCountdown({
+  const { formatted, isExpired, isWarning, isLoading: countdownLoading } = useHoldCountdown({
     holdExpiresAt: booking?.holdExpiresAt ?? null,
     serverTime,
   });
@@ -106,18 +106,18 @@ export function CheckoutPage({ bookingId }: CheckoutPageProps) {
       <div className="mx-auto max-w-2xl px-4 py-6 text-center space-y-4">
         <h1 className="text-2xl font-bold">Booking Already Confirmed</h1>
         <p className="text-muted-foreground">This booking has already been confirmed.</p>
-        <Button render={<Link href="/bookings" />}>View My Bookings</Button>
+        <Button nativeButton={false} render={<Link href="/bookings" />}>View My Bookings</Button>
       </div>
     );
   }
 
-  if (booking.status === 'expired' || isExpired) {
+  if (booking.status === 'expired' || (!countdownLoading && isExpired)) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-6 text-center space-y-4">
         <AlertTriangle className="mx-auto h-12 w-12 text-destructive" />
         <h1 className="text-2xl font-bold">Hold Expired</h1>
         <p className="text-muted-foreground">Your reservation hold has expired. Please go back and try again.</p>
-        <Button variant="outline" render={<Link href="/" />}>
+        <Button variant="outline" nativeButton={false} render={<Link href="/" />}>
           <ArrowLeft className="mr-1 h-4 w-4" />
           Back to Search
         </Button>
@@ -130,6 +130,7 @@ export function CheckoutPage({ bookingId }: CheckoutPageProps) {
       <Button
         variant="ghost"
         size="sm"
+        nativeButton={false}
         render={<Link href={`/hotels/${booking.hotelId}?checkIn=${booking.checkIn}&checkOut=${booking.checkOut}&adults=${booking.adults}`} />}
       >
         <ArrowLeft className="mr-1 h-4 w-4" />
