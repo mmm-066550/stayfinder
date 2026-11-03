@@ -55,7 +55,7 @@
 
 ### Phase 3: Redux Store & RTK Query
 
-- [ ] **Commit 6 — Store wiring + API layer**
+- [x] **Commit 6 — Store wiring + API layer**
   - `store/` — baseApi, makeStore, StoreProvider, typed hooks
   - `features/hotels/hotelsApi.ts` — searchHotels, getHotel (cache tags)
   - `features/booking/bookingsApi.ts` — hold, confirm, cancel, list (optimistic cancel)
@@ -64,13 +64,13 @@
 
 ### Phase 4: UI — All 4 Pages
 
-- [ ] **Commit 7 — Search page + Hotel detail page**
+- [x] **Commit 7 — Search page + Hotel detail page**
   - SearchBar (city, dates, adults → URL), SearchFilters (price, stars, sort)
   - HotelCard, HotelList (skeletons, empty, error+retry, race condition handling)
   - RoomCard (night breakdown, weekend marks, reserve), PriceBreakdown
   - Error modals: ROOM_UNAVAILABLE toast, PRICE_CHANGED accept/decline
 
-- [ ] **Commit 8 — Checkout + My Bookings**
+- [x] **Commit 8 — Checkout + My Bookings**
   - useHoldCountdown hook (server time offset, survives refresh)
   - HoldTimer (mm:ss, warning <60s, locks on expire)
   - GuestForm (react-hook-form + Zod, idempotency key, retry on 500)
