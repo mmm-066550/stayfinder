@@ -89,6 +89,9 @@ export function SearchBar({ initial }: SearchBarProps) {
                   if (d && (!checkOut || checkOut <= d)) {
                     setCheckOut(addDays(d, 1));
                   }
+                  if (d && checkOut && checkOut > addDays(d, 14)) {
+                    setCheckOut(addDays(d, 14));
+                  }
                 }}
                 disabled={{ before: today }}
               />
@@ -112,7 +115,10 @@ export function SearchBar({ initial }: SearchBarProps) {
                 mode="single"
                 selected={checkOut}
                 onSelect={(d) => setCheckOut(d ?? undefined)}
-                disabled={{ before: checkIn ? addDays(checkIn, 1) : addDays(today, 1) }}
+                disabled={{
+                  before: checkIn ? addDays(checkIn, 1) : addDays(today, 1),
+                  after: checkIn ? addDays(checkIn, 14) : addDays(today, 14),
+                }}
               />
             </PopoverContent>
           </Popover>

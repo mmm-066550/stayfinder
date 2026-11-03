@@ -32,3 +32,16 @@ export function nightDates(checkIn: ISODate, checkOut: ISODate): ISODate[] {
 export function nightCount(checkIn: ISODate, checkOut: ISODate): number {
   return nightDates(checkIn, checkOut).length;
 }
+
+export function todayISO(): ISODate {
+  return formatDate(new Date());
+}
+
+export function validateStayDates(checkIn: ISODate, checkOut: ISODate): string | null {
+  if (checkIn < todayISO()) return 'Check-in cannot be in the past';
+  if (checkOut <= checkIn) return 'Check-out must be after check-in';
+  const nights = nightCount(checkIn, checkOut);
+  if (nights < 1) return 'Stay must be at least 1 night';
+  if (nights > 14) return 'Stay cannot exceed 14 nights';
+  return null;
+}
