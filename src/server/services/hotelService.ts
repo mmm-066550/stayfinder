@@ -65,8 +65,9 @@ export function getHotelWithRooms(
   hotelId: string,
   checkIn: ISODate,
   checkOut: ISODate,
-  _adults: number,
+  adults: number,
 ): HotelDetail | null {
+  void adults;
   const hotel = db.getHotel(hotelId);
   if (!hotel) return null;
 

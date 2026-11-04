@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 interface UseHoldCountdownOptions {
   holdExpiresAt: string | null;
@@ -8,31 +8,24 @@ interface UseHoldCountdownOptions {
 }
 
 export function useHoldCountdown({ holdExpiresAt, serverTime }: UseHoldCountdownOptions) {
-  const expiresAtClient = useMemo(() => {
-    if (!holdExpiresAt) return null;
-    const offset = Date.now() - new Date(serverTime).getTime();
-    return new Date(holdExpiresAt).getTime() + offset;
-  }, [holdExpiresAt, serverTime]);
-
-  const calcSecondsLeft = () => {
-    if (expiresAtClient === null) return -1;
-    return Math.max(0, Math.floor((expiresAtClient - Date.now()) / 1000));
-  };
-
-  const [secondsLeft, setSecondsLeft] = useState(calcSecondsLeft);
+  const [secondsLeft, setSecondsLeft] = useState(-1);
 
   useEffect(() => {
-    if (expiresAtClient === null) return;
+    if (!holdExpiresAt) return;
 
-    setSecondsLeft(Math.max(0, Math.floor((expiresAtClient - Date.now()) / 1000)));
+    const offset = Date.now() - new Date(serverTime).getTime();
+    const expiresAtClient = new Date(holdExpiresAt).getTime() + offset;
 
-    const interval = setInterval(() => {
+    const tick = () => {
       const left = Math.max(0, Math.floor((expiresAtClient - Date.now()) / 1000));
       setSecondsLeft(left);
       if (left <= 0) clearInterval(interval);
-    }, 1000);
+    };
+
+    tick();
+    const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [expiresAtClient]);
+  }, [holdExpiresAt, serverTime]);
 
   const isExpired = holdExpiresAt !== null && secondsLeft <= 0;
   const isWarning = secondsLeft > 0 && secondsLeft <= 60;

@@ -30,13 +30,17 @@ function getSavedLocale(): Locale {
 }
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
+  const [initialized, setInitialized] = useState(false);
   const [locale, setLocaleState] = useState<Locale>(defaultLocale);
   const [messages, setMessages] = useState<Record<string, unknown> | null>(null);
 
   useEffect(() => {
     const saved = getSavedLocale();
-    setLocaleState(saved);
-    loadMessages(saved).then(setMessages);
+    loadMessages(saved).then((msgs) => {
+      setLocaleState(saved);
+      setMessages(msgs);
+      setInitialized(true);
+    });
   }, []);
 
   const setLocale = useCallback((l: Locale) => {
@@ -48,9 +52,10 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (!initialized) return;
     document.documentElement.lang = locale;
     document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
-  }, [locale]);
+  }, [locale, initialized]);
 
   if (!messages) return null;
 

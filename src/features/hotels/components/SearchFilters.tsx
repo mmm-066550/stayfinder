@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -19,11 +19,14 @@ const MAX = 500000;
 export function SearchFilters({ params }: SearchFiltersProps) {
   const router = useRouter();
   const t = useTranslations('filters');
-  const [localPrice, setLocalPrice] = useState(params.maxPrice ?? MAX);
 
-  useEffect(() => {
-    setLocalPrice(params.maxPrice ?? MAX);
-  }, [params.maxPrice]);
+  const externalPrice = params.maxPrice ?? MAX;
+  const [localPrice, setLocalPrice] = useState(externalPrice);
+  const [prevExternalPrice, setPrevExternalPrice] = useState(externalPrice);
+  if (externalPrice !== prevExternalPrice) {
+    setPrevExternalPrice(externalPrice);
+    setLocalPrice(externalPrice);
+  }
 
   const update = (patch: Partial<SearchParams>) => {
     router.push(searchParamsToUrl({ ...params, ...patch }));

@@ -28,7 +28,7 @@ export function BookingsPage() {
     }
   }, [searchParams, t]);
 
-  const bookings = data?.bookings ?? [];
+  const bookings = useMemo(() => data?.bookings ?? [], [data]);
 
   const sorted = useMemo(() =>
     [...bookings].sort((a, b) => {
