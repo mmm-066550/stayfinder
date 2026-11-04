@@ -14,8 +14,7 @@ import { useCreateHoldMutation } from '@/features/booking/bookingsApi';
 import { setActiveHold } from '@/features/booking/bookingSlice';
 import { useAppDispatch } from '@/store/hooks';
 import { isAppApiError } from '@/store/baseApi';
-import type { RoomWithAvailability } from '@/domain/types';
-import type { Quote } from '@/domain/types';
+import type { RoomWithAvailability, Quote } from '@/domain/types';
 import { v4 as uuid } from 'uuid';
 
 interface RoomCardProps {

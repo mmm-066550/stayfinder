@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { useCancelBookingMutation } from '../bookingsApi';
 import { isAppApiError } from '@/store/baseApi';
 import { formatHalalas } from '@/domain/money';
+import { nightCount } from '@/domain/dates';
 import type { Booking } from '@/domain/types';
 
 interface BookingCardProps {
@@ -23,19 +24,13 @@ const statusConfig: Record<string, { bg: string; text: string; border: string; s
   expired: { bg: 'bg-red-50 dark:bg-red-950/30', text: 'text-red-700 dark:text-red-400', border: 'border-red-200 dark:border-red-800', strip: 'bg-red-400', icon: <AlertTriangle className="h-3.5 w-3.5" /> },
 };
 
-function getNightCount(checkIn: string, checkOut: string): number {
-  const d1 = new Date(checkIn + 'T00:00:00');
-  const d2 = new Date(checkOut + 'T00:00:00');
-  return Math.max(1, Math.round((d2.getTime() - d1.getTime()) / 86400000));
-}
-
 export function BookingCard({ booking }: BookingCardProps) {
   const t = useTranslations('bookings');
   const tHotel = useTranslations('hotel');
   const [cancelBooking, { isLoading }] = useCancelBookingMutation();
   const [expanded, setExpanded] = useState(false);
   const status = statusConfig[booking.status] ?? statusConfig.expired;
-  const nights = getNightCount(booking.checkIn, booking.checkOut);
+  const nights = nightCount(booking.checkIn, booking.checkOut);
 
   const handleCancel = async () => {
     try {

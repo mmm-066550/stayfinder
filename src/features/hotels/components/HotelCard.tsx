@@ -50,7 +50,6 @@ export function HotelCard({ hotel, checkIn, checkOut, adults }: HotelCardProps) 
             </div>
           </div>
 
-          {/* Content — start side */}
           <div className="flex flex-1 flex-col justify-between py-1 sm:py-2">
             <div>
               <div className="flex items-start justify-between gap-3">
