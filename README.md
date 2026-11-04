@@ -1,5 +1,7 @@
 # StayFinder
 
+> **Live Demo:** [stayfinder-matn.netlify.app](https://stayfinder-matn.netlify.app/)
+
 A Booking.com-style hotel booking app built as a frontend engineering assignment. Search hotels across Riyadh, Jeddah, and Dubai, view room details with night-by-night pricing, hold and confirm reservations with a countdown timer, and manage bookings — all with a fake API that simulates real-world chaos (latency, errors, price changes).
 
 ## Tech Stack
@@ -68,6 +70,7 @@ HOLD_TTL_SECONDS=60
 | Wishlist (B1) | ✅ | Heart toggle on cards, Redux slice persisted to localStorage, dedicated `/wishlist` page. |
 | Countdown Test (B3) | ✅ | 6 tests with fake timers — loading, ticking, warning, expiry, server offset. |
 | Arabic RTL (B4) | ✅ | next-intl with en/ar JSON messages, language toggle, `dir="rtl"` on `<html>`. |
+| Deployed Demo (B5) | ✅ | Live at [stayfinder-matn.netlify.app](https://stayfinder-matn.netlify.app/) |
 | Error Boundaries | ✅ | Per-route `error.tsx` with retry, `loading.tsx` skeletons. |
 | Chaos Resilience | ✅ | Random latency, 500 errors, price changes, hold expiry — all handled gracefully. |
 
